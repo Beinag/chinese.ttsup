@@ -1,0 +1,43 @@
+// Text-to-Speech Function
+function speak() {
+    const text = document.getElementById("textInput").value;
+    if (!text) return alert("请输入中文文本！");
+
+    const utterance = new SpeechSynthesisUtterance();
+    utterance.text = text;
+    utterance.lang = "zh-CN"; // Chinese voice
+    utterance.rate = document.getElementById("speed").value; // Speed
+    utterance.pitch = document.getElementById("pitch").value; // Pitch
+
+    // Stop any current speech
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+}
+
+// Download Audio as MP3 (using Google TTS)
+function downloadAudio() {
+    const text = document.getElementById("textInput").value;
+    if (!text) return alert("请输入中文文本！");
+
+    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=zh-CN&client=tw-ob&q=${encodeURIComponent(text)}`;
+    const a = document.createElement("a");
+    a.href = ttsUrl;
+    a.download = `chinese-tts-${Date.now()}.mp3`;
+    a.click();
+}
+
+// Show Pinyin (using external API)
+function showPinyin() {
+    const text = document.getElementById("textInput").value;
+    if (!text) return alert("请输入中文文本！");
+
+    fetch(`https://api.pinyin.pepe.asia/?text=${encodeURIComponent(text)}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("pinyinDisplay").innerHTML = 
+                `<strong>拼音:</strong> ${data.pinyin}`;
+        })
+        .catch(() => {
+            alert("无法获取拼音，请重试！");
+        });
+}
