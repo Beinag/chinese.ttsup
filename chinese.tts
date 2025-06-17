@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chinese Text-to-Speech</title>
+</head>
+<body>
+    <h1>Chinese TTS Tool</h1>
+    <textarea id="textInput" placeholder="输入中文..."></textarea>
+    <button onclick="speak()">Read Aloud</button>
+    
+    <script>
+        function speak() {
+            const text = document.getElementById("textInput").value;
+            if (text.trim() === "") return;
+            
+            // Use Google TTS (gTTS-like API)
+            const speech = new SpeechSynthesisUtterance();
+            speech.text = text;
+            speech.lang = "zh-CN"; // Chinese language
+            window.speechSynthesis.speak(speech);
+        }
+    </script>
+</body>
+</html>
